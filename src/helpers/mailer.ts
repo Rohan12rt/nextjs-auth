@@ -4,6 +4,7 @@ import bcryptjs from "bcryptjs";
 
 export const sendEmail = async ({ email, emailType, userId }: any) => {
   try {
+    
     // TODO:- configure mail for usage
 
     const hashedToken = await bcryptjs.hash(userId.toString(), 10);
@@ -20,22 +21,11 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
       });
     }
 
-    // const transporter = nodemailer.createTransport({
-    //   host: "smtp.ethereal.email",
-    //   port: 465,
-    //   secure: true,
-    //   auth: {
-    //     user: "maddison53@ethereal.email",
-    //     pass: "jn7jnAPss4f63QBp6D",
-    //   },
-    // });
-
-
     var transport = nodemailer.createTransport({
       host: "sandbox.smtp.mailtrap.io",
       port: 2525,
       auth: {
-        user: "5075fc90413a90", //❌
+        user: "5075fc90413a90", 
         pass: "143428568854ce"
       }
     });
