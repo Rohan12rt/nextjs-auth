@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
                 success: true
             },
             {
-                status: 500
+                status: 200
             }
         )
 

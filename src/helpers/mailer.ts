@@ -2,22 +2,28 @@ import User from "@/models/userModel";
 import nodemailer from "nodemailer";
 import bcryptjs from "bcryptjs";
 
+
 export const sendEmail = async ({ email, emailType, userId }: any) => {
   try {
-    
-    // TODO:- configure mail for usage
-
+ 
     const hashedToken = await bcryptjs.hash(userId.toString(), 10);
+
+    console.log("Email type", emailType);
+    console.log(typeof emailType);
 
     if (emailType === "VERIFY") {
       await User.findByIdAndUpdate(userId, {
-        verifyToken: hashedToken,
-        verifyTokenExpiry: Date.now() + 3600000,
+        $set: {
+          verifyToken: hashedToken,
+          verifyTokenExpiry: Date.now() + 3600000, // 1 hr
+        },
       });
     } else if (emailType === "RESET") {
       await User.findByIdAndUpdate(userId, {
-        forgotPasswordToken: hashedToken,
-        forgotPasswordTokenExpiry: Date.now() + 3600000,
+        $set: {
+          forgotPasswordToken: hashedToken,
+          forgotPasswordTokenExpiry: Date.now() + 3600000,
+        },
       });
     }
 
@@ -25,7 +31,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
       host: "sandbox.smtp.mailtrap.io",
       port: 2525,
       auth: {
-        user: "5075fc90413a90", 
+        user: "5075fc90413a90",
         pass: "143428568854ce"
       }
     });
